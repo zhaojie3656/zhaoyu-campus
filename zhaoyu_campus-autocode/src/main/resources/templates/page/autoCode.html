@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>朝雨Mybatis逆向工程</title>
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+	<div id="app">
+		<el-form label-width="200px">
+			<el-form-item label="path">
+				<el-input v-model="path"></el-input>
+			</el-form-item>
+			<el-form-item label="packageName">
+				<el-input v-model="packageName"></el-input>
+			</el-form-item>
+			<el-form-item label="tableSchema">
+				<el-select v-model="tableSchema" filterable @change="tableSchemaChange" placeholder="请选择数据库">
+					<el-option
+						v-for="item in tableSchemaOptions"
+						:key="item.tableSchema"
+						:label="item.tableSchema"
+						:value="item.tableSchema">
+					</el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="tableNames">
+				<el-select v-model="tableNames" filterable multiple placeholder="请选择表">
+					<el-option
+						v-for="item in tableNameOptions"
+						:key="item.tableName"
+						:label="item.tableName"
+						:value="item.tableName">
+					</el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item>
+				<el-button type="primary" @click="onSubmit">创建</el-button>
+			</el-form-item>
+		</el-form>
+	</div>
+	<script src="/static/assets/js/vue.js"></script>
+    <script src="/static/assets/js/element-ui.js"></script>
+    <script src="/static/assets/js/axios.min.js"></script>
+    <script>
+    	var Main = {
+		 	data() {
+		    	return {
+		    		path:"D:/code",
+		    		packageName:"com.zhaoyu.campus.producer",
+		    		tableSchema:"",
+		    		tableNames:[],
+		    		tableSchemaOptions:[],
+		    		tableNameOptions:[]
+		    	}
+		  	},
+		  	mounted: function () {
+		  		var _this = this;
+				axios({
+					url:"/table/getAllTableSchema",
+					method: 'post',
+				}).then(function(res){
+					if(res.data.status!=200){
+						alert("请求数据失败")
+					}else{
+						_this.tableSchemaOptions = res.data.data;
+					}
+				});
+		  	},
+		  	methods:{
+		  		tableSchemaChange:function(){
+		  			var _this = this;
+					axios({
+						url:'/table/getTableNameByTableSchema',
+						method: 'post',
+						headers : {
+					          "Content-Type":'application/x-www-form-urlencoded; charset=UTF-8'
+					    },
+						params:{
+							tableSchema:_this.tableSchema
+						}
+					}).then(function(res){
+						if(res.data.status!=200){
+							alert("请求数据失败")
+						}else{
+							_this.tableNameOptions = res.data.data;
+						}
+					});
+		  		},
+		  		onSubmit:function(){
+		  			var _this = this;
+					axios({
+						url:'/table/autoCode',
+						method: 'post',
+						headers: {
+						    'Content-Type': 'application/json'
+						 },
+						data:{
+							path:_this.path,
+				    		packageName:_this.packageName,
+							tableSchema:_this.tableSchema,
+							tableNames:_this.tableNames
+						}
+					}).then(function(res){
+						if(res.data.status!=200){
+							alert("请求数据失败");
+						}else{
+							alert("自动生成成功");
+						}
+					});
+		  		}
+		  	}
+    	}
+    	var Ctor = Vue.extend(Main)
+		new Ctor().$mount('#app')
+    </script>
+</body>
+</html>

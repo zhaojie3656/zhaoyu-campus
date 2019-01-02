@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- base mybatis file for sql defined by tool  -->
+<mapper namespace="${package}.dao.${name}Dao">
+
+	<resultMap id="rm_${name}Entity" type="${package}.entity.${name}Entity">
+	<#list list as obj>
+		<result property="${obj.columnNameTransformed}" column="${obj.columnName}"/>
+	</#list>
+	</resultMap>
+	
+	<!--columns of table-->
+	<sql id="columns">
+	  <![CDATA[
+		<#list list as obj>${obj.columnName}<#if obj_has_next>,</#if></#list>
+	   ]]>
+	</sql>
+	
+	<!--the 'where' sql of search  -->
+	<sql id="where_sql">
+	  <where>
+	  <#list list as obj>
+	    <if test="${obj.columnNameTransformed} != null">
+	      and ${obj.columnName} = ${"#{"+obj.columnNameTransformed+"}"}
+	    </if>
+	  </#list>
+	  </where>
+	</sql>
+	
+	<!--the 'where' sql with table alias of search  -->
+	<sql id="where_with_alias_sql">
+	  <where>
+	  <#list list as obj>
+	    <if test="tb.${obj.columnNameTransformed} != null">
+	      and ${obj.columnName} =  ${"#{"+"tb."+obj.columnNameTransformed+"}"}
+	    </if>
+	   </#list>
+	  </where>
+	</sql>
+	
+	<!--update the 'where' sql with table alias of search  -->
+	<sql id="where_update_with_alias_sql">
+	  <where>
+	  <#list list as obj>
+	    <if test="c.${obj.columnNameTransformed} != null">
+	      and ${obj.columnName} =  ${"#{"+"c."+obj.columnNameTransformed+"}"}
+	    </if>
+	   </#list>
+	  </where>
+	</sql>
+	
+	<!-- the 'set' sql for search -->
+	<sql id="update_sql">
+	  <set>
+	  <#list list as obj>
+	    <if test="${obj.columnNameTransformed} != null">
+	      ${obj.columnName} =  ${"#{"+obj.columnNameTransformed+"}"} ,
+	    </if>
+	  </#list>
+	  </set>
+	</sql>
+	
+	<!-- the 'set' sql with table alias for search -->
+	<sql id="update_with_alias_sql">
+	  <set>
+	  <#list list as obj>
+	    <if test="tb.${obj.columnNameTransformed} != null">
+	      ${obj.columnName} = ${"#{"+"tb."+obj.columnNameTransformed+"}"} ,
+	    </if>
+	  </#list>
+	  </set>
+	</sql>
+	
+	<!-- update the table by 'id' sql -->
+	<update id="updateById" parameterType="java.util.Map">
+    	UPDATE ${tableName}
+   		<include refid="update_with_alias_sql"/>
+		<where>
+			and id = ${ "#{"+"id}" }
+		</where>
+	</update>
+	
+	<!-- update the records by conditions -->
+	<update id="update" parameterType="java.util.Map">
+    	UPDATE ${tableName}
+   		<include refid="update_with_alias_sql"/>
+		<include refid="where_update_with_alias_sql"/>
+	</update>
+	
+	<!-- insert value sql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	  <![CDATA[
+	    INSERT INTO ${tableName}
+	      (
+			<#list list as obj>${obj.columnName}<#if obj_has_next>,</#if></#list>
+		  )
+	    VALUES
+	      (	
+			 <#list list as obj>${ "#{"+obj.columnNameTransformed+"}" }<#if obj_has_next>,</#if></#list>
+	      )
+	  ]]>
+	</insert>
+	
+	<!-- insert into table with not null -->
+    <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO  ${tableName}
+	    <trim prefix="(" suffix=")" suffixOverrides=",">
+	      <#list list as obj>
+	      <if test="${obj.columnNameTransformed} != null">
+	        ${obj.columnName},
+	      </if>
+	      </#list>
+	    </trim>
+	    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+	      <#list list as obj>
+	      <if test="${obj.columnNameTransformed} != null">
+	         ${ "#{"+obj.columnNameTransformed+"}" } ,
+	      </if>
+	      </#list>
+	    </trim>
+    </insert>
+    
+    <!--insert batch into table -->
+    <insert id="insertBatch" parameterType="java.util.List">
+	    INSERT INTO ${tableName}
+	      (
+			<#list list as obj>${obj.columnName}<#if obj_has_next>,</#if></#list>
+		  )
+	    VALUES
+	    <foreach collection="list" item="item" open="" separator="," close="">
+	     (
+			<#list list as obj>${ "#{"+obj.columnNameTransformed+"}" }<#if obj_has_next>,</#if></#list>
+	     )
+	    </foreach>
+    </insert>
+    
+    <!-- get the records by id -->
+    <select id="getById" resultMap="rm_${name}Entity">
+	    SELECT
+	    <include refid="columns"/>
+	    <![CDATA[
+	      FROM ${tableName} 
+	    ]]>
+		<where>
+			and id =${ "#{"+"id}" }
+		</where>
+    </select>
+    
+    <!-- get the records by ids -->
+    <select id="getByIds" resultMap="rm_${name}Entity" parameterType="java.util.List">
+	    SELECT
+	    <include refid="columns"/>
+	    FROM ${tableName}
+		  WHERE id in
+	    <foreach collection="list" item="item" open="(" separator="," close=")">
+	     ${ "#{"+"item}" }   
+	    </foreach>
+    </select>  
+    
+    <!-- get the records by condition -->
+    <select id="select" resultMap="rm_${name}Entity">
+	    SELECT 
+	    	<include refid="columns"/>
+			FROM ${tableName}
+	    <include refid="where_with_alias_sql"/>
+    </select>
+    
+    <!-- get the count by condition -->
+    <select id="selectCount" resultType="int">
+	    SELECT count(1) FROM ${tableName}
+	    <include refid="where_with_alias_sql"/>
+    </select>
+    
+    <!-- delete the records by conditions -->
+    <delete id="delete">
+	    DELETE FROM ${tableName}
+	    <include refid="where_sql"/>
+    </delete>
+    
+    <!-- deleted the records by id -->
+    <delete id="deleteById">
+	    DELETE FROM ${tableName}
+	    <where>
+			and id = ${ "#{"+"id}" }
+	    </where>
+    </delete>
+    
+    <!-- deleted the records by ids -->
+    <delete id="deleteByIds" parameterType="java.util.List">
+	    delete from ${tableName} 
+	      WHERE id in
+	    <foreach collection="list" item="item" open="(" separator="," close=")">      
+		  ${ "#{"+"item}" } 
+	    </foreach>
+    </delete> 
+
+</mapper>

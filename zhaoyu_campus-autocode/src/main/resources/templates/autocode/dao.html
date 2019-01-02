@@ -1,0 +1,12 @@
+package ${package}.dao;
+
+import ${package}.entity.${name}Entity;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
+
+@Mapper
+@Component
+public interface ${name}Dao extends BaseDao <${name}Entity,${name}Entity,Integer> {
+	
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- base mybatis file for sql defined by self  -->
+<mapper namespace="com.zhaoyu.campus.autocode.dao.TableDao">
+
+    <select id="getByTableSchema" resultType="com.zhaoyu.campus.autocode.entity.TableEntity">
+	   SELECT
+			TABLE_SCHEMA tableSchema,
+			TABLE_NAME tableName,
+			COLUMN_NAME columnName,
+			DATA_TYPE dataType,
+			COLUMN_KEY columnKey,
+			COLUMN_COMMENT columnComment
+		FROM
+			information_schema.COLUMNS
+		WHERE
+			TABLE_SCHEMA = #{table_schema};
+   </select>
+   
+   <select id="getByTableSchemaAndTableNames" resultType="com.zhaoyu.campus.autocode.entity.TableEntity">
+	   SELECT
+			TABLE_SCHEMA tableSchema,
+			TABLE_NAME tableName,
+			COLUMN_NAME columnName,
+			DATA_TYPE dataType,
+			COLUMN_KEY columnKey,
+			COLUMN_COMMENT columnComment
+		FROM
+			information_schema.COLUMNS
+		WHERE
+			TABLE_SCHEMA = #{table_schema} AND
+			TABLE_NAME in
+		<foreach collection="tableNames" item="item" open="(" separator="," close=")">
+				#{item}
+	    </foreach>
+   </select>
+   
+   <select id="getAllTableSchema" resultType="com.zhaoyu.campus.autocode.entity.TableEntity">
+   		SELECT
+			DISTINCT TABLE_SCHEMA tableSchema
+		FROM
+			information_schema.COLUMNS
+		WHERE TABLE_SCHEMA not in ("information_schema","sys","mysql","performance_schema","ndna","hebau_dormitory")
+   </select>
+   
+   <select id="getTableNameByTableSchema" resultType="com.zhaoyu.campus.autocode.entity.TableEntity">
+   		SELECT
+			DISTINCT TABLE_NAME tableName
+		FROM
+			information_schema.COLUMNS
+		WHERE TABLE_SCHEMA = #{tableSchema}
+   </select>
+
+</mapper>

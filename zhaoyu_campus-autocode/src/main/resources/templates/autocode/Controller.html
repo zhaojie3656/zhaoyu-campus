@@ -1,0 +1,15 @@
+package ${package}.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+
+import ${package}.manager.${name}Manager;
+
+@RestController
+public class ${name}Controller {
+	
+	@Autowired
+	${name}Manager ${name?uncap_first}Manager;
+	
+
+}

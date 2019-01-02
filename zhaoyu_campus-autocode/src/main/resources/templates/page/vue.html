@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>查询页面组件</title>
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+	<div id="app">
+		<mc-search-page v-bind:pageconfig="pageconfig"></mc-search-page>
+	</div>
+	<script src="/static/assets/js/vue.js"></script>
+	<script src="/static/assets/js/element-ui.js"></script>
+    <script src="/static/assets/js/axios.min.js"></script>
+    <script src="/static/assets/js/mycomponent.js"></script>
+    <script>
+    	var Main = {
+		 	data:function() {
+		    	return {
+		    		pageconfig:{
+		    			searchConfig:{
+		    				queryConditions:[{
+								"label": "名称",
+								"field": "name",
+								"type": 1
+							},{
+								
+								"label": "日期",
+								"field": "time",
+								"type": 3
+							},{
+								"label": "一二三级分类",
+								"field": "class123",
+								"type": 2,
+								"selectConfig": [
+									{
+										"index":0,
+										"label":"一级分类",
+										"field":"class1Id",
+										"url":"/class1/getAll",
+										"optionLabel":"name",
+										"optionValue":"id",
+										"options":[],
+										"value":null
+									},
+									{
+										"index":1,
+										"label":"二级分类",
+										"field":"class2Id",
+										"url":"/class2/getByClass1Id",
+										"optionLabel":"name",
+										"optionValue":"id",
+										"options":[],
+										"value":null
+									}
+								]
+							}],
+							buttons:{
+								"search":{
+									"label":"查询",
+									"type":"primary"
+								}
+							},
+							pageSize:10
+		    			},
+						tableConfig:{
+							columns:[{
+								"label":"ID",
+								"width":"150",
+								"field":"id",
+							},{
+								"label":"class1Id",
+								"width":"150",
+								"field":"class1Id"
+							},{
+								"label":"class2Id",
+								"width":"150",
+								"field":"class2Id"
+							},{
+								"label":"class3Id",
+								"width":"150",
+								"field":"class3Id",
+								formatter:function(scope,data){
+									return "<b>"+data+"</b>";
+								}
+							},{
+								"label":"name",
+								"width":"150",
+								"field":"name",
+								formatter:function(scope,data){
+									return "<a style='text-decoration:none;' href='https://www.baidu.com/'>"+data+"</a>";
+								}
+							},{
+								"label":"status",
+								"width":"150",
+								"field":"status",
+								formatter:function(scope,data){
+									if(data==1){
+										return "正常";
+									}else if(data==2){
+										return "关闭";
+									}else{
+										return "异常";
+									}
+								}
+							}],
+							buttons:[
+								{
+									"label":"删除",
+									"type":"primary",
+									click:function(scope,tableData){
+										tableData.splice(scope.$index, 1);
+									}
+								},
+								{
+									"label":"详情",
+									"type":"primary",
+									click:function(scope,tableData,tableConfig){
+										tableConfig.dialogVisible=true;
+										tableConfig.title="详情";
+										tableConfig.width="60%";
+									}
+								}
+							],
+							urls:{
+								"list":"/sku/getPage"
+							},
+							dialogConfig:{
+								"dialogVisible":false,
+								"title":"详情",
+								"width":"80%"
+							},
+						}
+		    		}
+		    	}
+		  	},
+		  	mounted: function () {
+		  		
+		  	},
+		  	methods:{
+		  		
+
+		  	}
+    	}
+    	var Ctor = Vue.extend(Main)
+		new Ctor().$mount('#app')
+    </script>
+</body>
+</html>

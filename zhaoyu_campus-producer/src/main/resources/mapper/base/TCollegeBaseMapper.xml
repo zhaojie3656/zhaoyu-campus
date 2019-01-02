@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- base mybatis file for sql defined by tool  -->
+<mapper namespace="com.zhaoyu.campus.producer.dao.TCollegeDao">
+
+	<resultMap id="rm_TCollegeEntity" type="com.zhaoyu.campus.producer.entity.TCollegeEntity">
+		<result property="id" column="id"/>
+		<result property="collegeId" column="college_id"/>
+		<result property="collegeName" column="college_name"/>
+		<result property="collegeAddress" column="college_address"/>
+		<result property="cT" column="c_t"/>
+		<result property="uT" column="u_t"/>
+		<result property="isDeleted" column="is_deleted"/>
+	</resultMap>
+	
+	<!--columns of table-->
+	<sql id="columns">
+	  <![CDATA[
+		id,college_id,college_name,college_address,c_t,u_t,is_deleted
+	   ]]>
+	</sql>
+	
+	<!--the 'where' sql of search  -->
+	<sql id="where_sql">
+	  <where>
+	    <if test="id != null">
+	      and id = #{id}
+	    </if>
+	    <if test="collegeId != null">
+	      and college_id = #{collegeId}
+	    </if>
+	    <if test="collegeName != null">
+	      and college_name = #{collegeName}
+	    </if>
+	    <if test="collegeAddress != null">
+	      and college_address = #{collegeAddress}
+	    </if>
+	    <if test="cT != null">
+	      and c_t = #{cT}
+	    </if>
+	    <if test="uT != null">
+	      and u_t = #{uT}
+	    </if>
+	    <if test="isDeleted != null">
+	      and is_deleted = #{isDeleted}
+	    </if>
+	  </where>
+	</sql>
+	
+	<!--the 'where' sql with table alias of search  -->
+	<sql id="where_with_alias_sql">
+	  <where>
+	    <if test="tb.id != null">
+	      and id =  #{tb.id}
+	    </if>
+	    <if test="tb.collegeId != null">
+	      and college_id =  #{tb.collegeId}
+	    </if>
+	    <if test="tb.collegeName != null">
+	      and college_name =  #{tb.collegeName}
+	    </if>
+	    <if test="tb.collegeAddress != null">
+	      and college_address =  #{tb.collegeAddress}
+	    </if>
+	    <if test="tb.cT != null">
+	      and c_t =  #{tb.cT}
+	    </if>
+	    <if test="tb.uT != null">
+	      and u_t =  #{tb.uT}
+	    </if>
+	    <if test="tb.isDeleted != null">
+	      and is_deleted =  #{tb.isDeleted}
+	    </if>
+	  </where>
+	</sql>
+	
+	<!--update the 'where' sql with table alias of search  -->
+	<sql id="where_update_with_alias_sql">
+	  <where>
+	    <if test="c.id != null">
+	      and id =  #{c.id}
+	    </if>
+	    <if test="c.collegeId != null">
+	      and college_id =  #{c.collegeId}
+	    </if>
+	    <if test="c.collegeName != null">
+	      and college_name =  #{c.collegeName}
+	    </if>
+	    <if test="c.collegeAddress != null">
+	      and college_address =  #{c.collegeAddress}
+	    </if>
+	    <if test="c.cT != null">
+	      and c_t =  #{c.cT}
+	    </if>
+	    <if test="c.uT != null">
+	      and u_t =  #{c.uT}
+	    </if>
+	    <if test="c.isDeleted != null">
+	      and is_deleted =  #{c.isDeleted}
+	    </if>
+	  </where>
+	</sql>
+	
+	<!-- the 'set' sql for search -->
+	<sql id="update_sql">
+	  <set>
+	    <if test="id != null">
+	      id =  #{id} ,
+	    </if>
+	    <if test="collegeId != null">
+	      college_id =  #{collegeId} ,
+	    </if>
+	    <if test="collegeName != null">
+	      college_name =  #{collegeName} ,
+	    </if>
+	    <if test="collegeAddress != null">
+	      college_address =  #{collegeAddress} ,
+	    </if>
+	    <if test="cT != null">
+	      c_t =  #{cT} ,
+	    </if>
+	    <if test="uT != null">
+	      u_t =  #{uT} ,
+	    </if>
+	    <if test="isDeleted != null">
+	      is_deleted =  #{isDeleted} ,
+	    </if>
+	  </set>
+	</sql>
+	
+	<!-- the 'set' sql with table alias for search -->
+	<sql id="update_with_alias_sql">
+	  <set>
+	    <if test="tb.id != null">
+	      id = #{tb.id} ,
+	    </if>
+	    <if test="tb.collegeId != null">
+	      college_id = #{tb.collegeId} ,
+	    </if>
+	    <if test="tb.collegeName != null">
+	      college_name = #{tb.collegeName} ,
+	    </if>
+	    <if test="tb.collegeAddress != null">
+	      college_address = #{tb.collegeAddress} ,
+	    </if>
+	    <if test="tb.cT != null">
+	      c_t = #{tb.cT} ,
+	    </if>
+	    <if test="tb.uT != null">
+	      u_t = #{tb.uT} ,
+	    </if>
+	    <if test="tb.isDeleted != null">
+	      is_deleted = #{tb.isDeleted} ,
+	    </if>
+	  </set>
+	</sql>
+	
+	<!-- update the table by 'id' sql -->
+	<update id="updateById" parameterType="java.util.Map">
+    	UPDATE t_college
+   		<include refid="update_with_alias_sql"/>
+		<where>
+			and id = #{id}
+		</where>
+	</update>
+	
+	<!-- update the records by conditions -->
+	<update id="update" parameterType="java.util.Map">
+    	UPDATE t_college
+   		<include refid="update_with_alias_sql"/>
+		<include refid="where_update_with_alias_sql"/>
+	</update>
+	
+	<!-- insert value sql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	  <![CDATA[
+	    INSERT INTO t_college
+	      (
+			id,college_id,college_name,college_address,c_t,u_t,is_deleted
+		  )
+	    VALUES
+	      (	
+			 #{id},#{collegeId},#{collegeName},#{collegeAddress},#{cT},#{uT},#{isDeleted}
+	      )
+	  ]]>
+	</insert>
+	
+	<!-- insert into table with not null -->
+    <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO  t_college
+	    <trim prefix="(" suffix=")" suffixOverrides=",">
+	      <if test="id != null">
+	        id,
+	      </if>
+	      <if test="collegeId != null">
+	        college_id,
+	      </if>
+	      <if test="collegeName != null">
+	        college_name,
+	      </if>
+	      <if test="collegeAddress != null">
+	        college_address,
+	      </if>
+	      <if test="cT != null">
+	        c_t,
+	      </if>
+	      <if test="uT != null">
+	        u_t,
+	      </if>
+	      <if test="isDeleted != null">
+	        is_deleted,
+	      </if>
+	    </trim>
+	    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+	      <if test="id != null">
+	         #{id} ,
+	      </if>
+	      <if test="collegeId != null">
+	         #{collegeId} ,
+	      </if>
+	      <if test="collegeName != null">
+	         #{collegeName} ,
+	      </if>
+	      <if test="collegeAddress != null">
+	         #{collegeAddress} ,
+	      </if>
+	      <if test="cT != null">
+	         #{cT} ,
+	      </if>
+	      <if test="uT != null">
+	         #{uT} ,
+	      </if>
+	      <if test="isDeleted != null">
+	         #{isDeleted} ,
+	      </if>
+	    </trim>
+    </insert>
+    
+    <!--insert batch into table -->
+    <insert id="insertBatch" parameterType="java.util.List">
+	    INSERT INTO t_college
+	      (
+			id,college_id,college_name,college_address,c_t,u_t,is_deleted
+		  )
+	    VALUES
+	    <foreach collection="list" item="item" open="" separator="," close="">
+	     (
+			#{id},#{collegeId},#{collegeName},#{collegeAddress},#{cT},#{uT},#{isDeleted}
+	     )
+	    </foreach>
+    </insert>
+    
+    <!-- get the records by id -->
+    <select id="getById" resultMap="rm_TCollegeEntity">
+	    SELECT
+	    <include refid="columns"/>
+	    <![CDATA[
+	      FROM t_college 
+	    ]]>
+		<where>
+			and id =#{id}
+		</where>
+    </select>
+    
+    <!-- get the records by ids -->
+    <select id="getByIds" resultMap="rm_TCollegeEntity" parameterType="java.util.List">
+	    SELECT
+	    <include refid="columns"/>
+	    FROM t_college
+		  WHERE id in
+	    <foreach collection="list" item="item" open="(" separator="," close=")">
+	     #{item}   
+	    </foreach>
+    </select>  
+    
+    <!-- get the records by condition -->
+    <select id="select" resultMap="rm_TCollegeEntity">
+	    SELECT 
+	    	<include refid="columns"/>
+			FROM t_college
+	    <include refid="where_with_alias_sql"/>
+    </select>
+    
+    <!-- get the count by condition -->
+    <select id="selectCount" resultType="int">
+	    SELECT count(1) FROM t_college
+	    <include refid="where_with_alias_sql"/>
+    </select>
+    
+    <!-- delete the records by conditions -->
+    <delete id="delete">
+	    DELETE FROM t_college
+	    <include refid="where_sql"/>
+    </delete>
+    
+    <!-- deleted the records by id -->
+    <delete id="deleteById">
+	    DELETE FROM t_college
+	    <where>
+			and id = #{id}
+	    </where>
+    </delete>
+    
+    <!-- deleted the records by ids -->
+    <delete id="deleteByIds" parameterType="java.util.List">
+	    delete from t_college 
+	      WHERE id in
+	    <foreach collection="list" item="item" open="(" separator="," close=")">      
+		  #{item} 
+	    </foreach>
+    </delete> 
+
+</mapper>

@@ -1,0 +1,72 @@
+package ${package}.manager.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class BaseManagerImpl<T, P, ID> implements BaseManager<T, P, ID> {
+
+    @Autowired(required=false)
+    private BaseDao<T, P, ID> baseDao;
+    
+	@Override
+	public int insert(T object) {
+		return this.baseDao.insert(object);
+	}
+
+	@Override
+	public int insertNotNull(T object) {
+		 return this.baseDao.insertNotNull(object);
+	}
+
+	@Override
+	public int insertBatch(List<T> list) {
+		return this.baseDao.insertBatch(list);
+	}
+
+	@Override
+	public int updateById(T t, ID id) {
+		return this.baseDao.updateById(t, id);
+	}
+	
+	@Override
+	public int update(T t, T c){
+		return this.baseDao.update(t, c);
+	}
+
+	@Override
+	public int delete(T object) {
+		return this.baseDao.delete(object);
+	}
+
+	@Override
+	public int deleteById(ID id) {
+		return this.baseDao.deleteById(id);
+	}
+
+	@Override
+	public int deleteByIds(List<ID> ids) {
+		return this.baseDao.deleteByIds(ids);
+	}
+
+	@Override
+	public T getById(ID id) {
+		return this.baseDao.getById(id);
+	}
+
+	@Override
+	public List<T> getByIds(List<ID> ids) {
+		return this.baseDao.getByIds(ids);
+	}
+
+	@Override
+	public List<T> select(P object) {
+		return this.baseDao.select(object);
+	}
+
+	@Override
+	public int selectCount(P object) {
+		return this.baseDao.selectCount(object);
+	}
+
+}
