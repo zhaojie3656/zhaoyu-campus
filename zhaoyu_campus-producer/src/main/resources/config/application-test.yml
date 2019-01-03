@@ -11,14 +11,14 @@ spring:
       trigger-file: trigger.txt
   
   datasource:
-    name: autocode
+    name: producer
     type: com.alibaba.druid.pool.DruidDataSource
 
     #druid相关配置
     druid:
       filters: stat
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://192.168.252.66:3306/campus_canteen?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+      url: jdbc:mysql://localhost:3306/campus_canteen?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
       username: root
       password: root
       #配置初始化大小/最小/最大
