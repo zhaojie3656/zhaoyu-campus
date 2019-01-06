@@ -92,11 +92,11 @@
 	  <![CDATA[
 	    INSERT INTO ${tableName}
 	      (
-			<#list list as obj>${obj.columnName}<#if obj_has_next>,</#if></#list>
+			<#list list as obj><#if obj.columnName!='id'>${obj.columnName}<#if obj_has_next>,</#if></#if></#list>
 		  )
 	    VALUES
 	      (	
-			 <#list list as obj>${ "#{"+obj.columnNameTransformed+"}" }<#if obj_has_next>,</#if></#list>
+			 <#list list as obj><#if obj.columnNameTransformed!='id'>${ "#{"+obj.columnNameTransformed+"}" }<#if obj_has_next>,</#if></#if></#list>
 	      )
 	  ]]>
 	</insert>
@@ -124,12 +124,12 @@
     <insert id="insertBatch" parameterType="java.util.List">
 	    INSERT INTO ${tableName}
 	      (
-			<#list list as obj>${obj.columnName}<#if obj_has_next>,</#if></#list>
+			<#list list as obj><#if obj.columnName!='id'>${obj.columnName}<#if obj_has_next>,</#if></#if></#list>
 		  )
 	    VALUES
 	    <foreach collection="list" item="item" open="" separator="," close="">
 	     (
-			<#list list as obj>${ "#{"+obj.columnNameTransformed+"}" }<#if obj_has_next>,</#if></#list>
+			<#list list as obj><#if obj.columnNameTransformed!='id'>${ "#{"+"item."+obj.columnNameTransformed+"}" }<#if obj_has_next>,</#if></#if></#list>
 	     )
 	    </foreach>
     </insert>

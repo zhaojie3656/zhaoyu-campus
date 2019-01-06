@@ -13,16 +13,16 @@ public class ${name}  implements Serializable  {
 	private static final long serialVersionUID = 1L;
 	
 	<#list list as obj>
-	private <#if obj.dataType=='int' || obj.dataType=='smallint' || obj.dataType=='tinyint'>Integer<#elseif obj.dataType=='bigint'>Long<#elseif obj.dataType=='varchar' || obj.dataType=='char'>String</#if> ${obj.columnNameTransformed};
+	private <#if obj.dataType=='int' || obj.dataType=='smallint' || obj.dataType=='tinyint'>Integer<#elseif obj.dataType=='bigint'>Long<#elseif obj.dataType=='varchar' || obj.dataType=='char'>String<#elseif obj.dataType=='double'>Double</#if> ${obj.columnNameTransformed};
 		
 	</#list>
 	<#-- 类文件的方法模版 -->
 	<#list list as obj >
-	public <#if obj.dataType=='int' || obj.dataType=='smallint' || obj.dataType=='tinyint'>Integer<#elseif obj.dataType=='bigint'>Long<#elseif obj.dataType=='varchar' || obj.dataType=='char'>String</#if> get${obj.columnNameTransformed?cap_first}(){
+	public <#if obj.dataType=='int' || obj.dataType=='smallint' || obj.dataType=='tinyint'>Integer<#elseif obj.dataType=='bigint'>Long<#elseif obj.dataType=='varchar' || obj.dataType=='char'>String<#elseif obj.dataType=='double'>Double</#if> get${obj.columnNameTransformed?cap_first}(){
 		return this.${obj.columnNameTransformed};
 	}
 	
-	public void set${obj.columnNameTransformed?cap_first}(<#if obj.dataType=='int' || obj.dataType=='smallint' || obj.dataType=='tinyint'>Integer<#elseif obj.dataType=='bigint'>Long<#elseif obj.dataType=='varchar' || obj.dataType=='char'>String</#if> ${obj.columnNameTransformed}){
+	public void set${obj.columnNameTransformed?cap_first}(<#if obj.dataType=='int' || obj.dataType=='smallint' || obj.dataType=='tinyint'>Integer<#elseif obj.dataType=='bigint'>Long<#elseif obj.dataType=='varchar' || obj.dataType=='char'>String<#elseif obj.dataType=='double'>Double</#if> ${obj.columnNameTransformed}){
 		this.${obj.columnNameTransformed} = ${obj.columnNameTransformed};
 	}
 	

@@ -1,12 +1,9 @@
 package com.zhaoyu.campus.mysql.dao;
 
 import java.util.List;
-import java.util.LinkedHashMap;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * 
- * @author zhaojie
  * @param <T>
  * @param <ID>
  */
@@ -18,10 +15,7 @@ public interface BaseDao<T, P, ID> {
 
     public Integer selectCount(@Param("tb") P p);
 
-    public List<T> select(@Param("tb") P p, @Param("sort") LinkedHashMap<String, String> sort,
-            @Param("offset") Integer offset, @Param("limit") Integer limit);
-
-    public List<T> select(@Param("tb") P p, @Param("sort") LinkedHashMap<String, String> sort);
+    public List<T> select(@Param("tb") P p);
 
     public Integer insert(T t);
 
@@ -30,6 +24,8 @@ public interface BaseDao<T, P, ID> {
     public Integer insertBatch(List<T> list);
 
     public Integer updateById(@Param("tb") T t, @Param("id") ID id);
+    
+    public Integer update(@Param("tb") T t, @Param("c")T c);
 
     public Integer delete(T t);
 
@@ -37,8 +33,4 @@ public interface BaseDao<T, P, ID> {
 
     public Integer deleteByIds(List<ID> list);
 
-    public List<T> selectElse(@Param("tb") T t, @Param("sort") LinkedHashMap<String, String> sort,
-                          @Param("offset") Integer offset, @Param("limit") Integer limit);
-
-    public Integer selectCountElse(@Param("tb") T t);
 }
