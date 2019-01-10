@@ -21,10 +21,9 @@ public class DateUtil {
 	public static final String KEY_INT_ENDTIME = "intEndtime";
 	public static final String KEY_STR_ENDTIME = "strEndtime";
 	private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 	/**
 	 * 获取当前时间的时间戳
-	 * 
+	 *
 	 * @author lmc 2015年11月6日
 	 * @return int值
 	 */
@@ -682,7 +681,7 @@ public class DateUtil {
 
 	/**
 	 * 
-	 * @param time
+	 * @param date
 	 *            yyyy-MM-dd
 	 * @return
 	 */
@@ -693,7 +692,7 @@ public class DateUtil {
 
 	/**
 	 * 
-	 * @param time
+	 * @param date
 	 *            yyyy-MM-dd HH:mm:ss
 	 * @return
 	 */
@@ -726,5 +725,24 @@ public class DateUtil {
 		String str = startDate.replaceAll("-", "");
 		str = str.substring(0, 6);
 		return str;
+	}
+
+	/**
+	 * 格式化时间时间单位是【毫秒】，一定要注意
+	 *
+	 * @param time   time
+	 * @param format format
+	 * @return return
+	 */
+	public static String foramtTime(Long time, String format) {
+		String result = null;
+		try {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+
+			result = simpleDateFormat.format(time * 1000);
+		} catch (Exception e) {
+//            e.printStackTrace();
+		}
+		return result;
 	}
 }

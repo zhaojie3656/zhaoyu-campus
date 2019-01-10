@@ -17,7 +17,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Dalston.RELEASE</spring-cloud.version>
-		
+		<dozer.version>5.5.1</dozer.version>
 		<fastjson.version>1.2.29</fastjson.version>
 		<poi.version>3.15</poi.version>
 		<springboot.mybatis.version>1.3.2</springboot.mybatis.version>
@@ -46,6 +46,16 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>${dozer.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>16.0.1</version>
 		</dependency>
 	  	   
 	  </dependencies>
