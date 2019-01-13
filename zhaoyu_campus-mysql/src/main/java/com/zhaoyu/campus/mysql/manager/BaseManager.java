@@ -20,6 +20,8 @@ public interface BaseManager<T, P, ID> {
      */
     public int insertNotNull(T object);
 
+    public int insertBatch(List<T> list);
+
     /**
      * 保存
      * @param list

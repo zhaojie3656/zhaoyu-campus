@@ -39,12 +39,10 @@ public class BaseManagerImpl<T, P, ID> implements BaseManager<T, P, ID> {
         return this.baseDao.insertNotNull(object);
     }
 
-    //	@Override
-    //	public int insertBatch(List<T> list) {
-    //		//sqlSession.insert(daoClass.getName() + ".insertBatch", list);
-    //		//sqlSession.commit();
-    //		return this.baseDao.insertBatch(list);
-    //	}
+    @Override
+    public int insertBatch(List<T> list) {
+        return this.baseDao.insertBatch(list);
+    }
 
     @SuppressWarnings("rawtypes")
     @Override
